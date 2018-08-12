@@ -51,6 +51,7 @@ namespace CombatSimulator
 
         public static void SimulatePlayerAttack(char attackAction)
         {
+            int damage;
             switch(attackAction)
             {
                 case '1':
@@ -64,6 +65,9 @@ namespace CombatSimulator
                     break;
                 case '4':
                     Console.WriteLine("player swings toward his enemies torso! \n \n");
+                    damage = CalculateDamage(attackAction);
+                    ApplyDamage(attackAction, damage);
+
                     break;
                 case '5':
                     Console.WriteLine("player swings toward his enemies left leg! \n \n");
@@ -85,11 +89,82 @@ namespace CombatSimulator
         {
             int agilityDifference = simulationEnemy.agility - simulationPlayer.agility;
             int baseAttack = simulationPlayer.strength;
+            int damage = 0;
             bool hit = CalculateHitChance(agilityDifference);
 
             if (hit)
             {
+                switch (attackSelection)
+                {
+                    case '1':
+                        Console.WriteLine("player swings toward his enemies head! \n \n");
+                        break;
+                    case '2':
+                        Console.WriteLine("player swings toward his enemies left arm! \n \n");
+                        break;
+                    case '3':
+                        Console.WriteLine("player swings toward his enemies right arm! \n \n");
+                        break;
+                    case '4':
+                        damage = simulationPlayer.strength - simulationEnemy.torsoArmor;
+                        if(damage > 0)
+                        {
+                            return damage;
+                        }
+                        break;
+                    case '5':
+                        Console.WriteLine("player swings toward his enemies left leg! \n \n");
+                        break;
+                    case '6':
+                        Console.WriteLine("player swings toward his enemies right leg! \n \n");
+                        break;
+                    default:
+                        Console.WriteLine("Input not valid. Please hit 1-6. \n \n ");
+                        break;
 
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("You missed!");
+            }
+            return 0;
+        }
+
+        public static void ApplyDamage(char attackSelection, int damage)
+        {
+            switch (attackSelection)
+            {
+                case '1':
+                    Console.WriteLine("player swings toward his enemies head! \n \n");
+                    break;
+                case '2':
+                    Console.WriteLine("player swings toward his enemies left arm! \n \n");
+                    break;
+                case '3':
+                    Console.WriteLine("player swings toward his enemies right arm! \n \n");
+                    break;
+                case '4':
+                    simulationEnemy.health -= damage;
+                    Console.WriteLine("The Player did " + damage + " damage to his oponents health!");
+                    if(simulationEnemy.health <= 0)
+                    {
+                        simulationEnemy.alive = false;
+                        Console.WriteLine("The enemy has died!");
+                        Console.Read();
+                    }
+                    
+                    break;
+                case '5':
+                    Console.WriteLine("player swings toward his enemies left leg! \n \n");
+                    break;
+                case '6':
+                    Console.WriteLine("player swings toward his enemies right leg! \n \n");
+                    break;
+                default:
+                    Console.WriteLine("Input not valid. Please hit 1-6. \n \n ");
+                    break;
 
             }
         }
@@ -100,7 +175,7 @@ namespace CombatSimulator
             if (agilityDifference <= 0)
             {
              
-                if(rand.Next() > 50)
+                if(rand.Next(0, 100) > 50)
                 {
                     return true;
                 }
@@ -111,7 +186,7 @@ namespace CombatSimulator
             }
             else if(agilityDifference > 0 && agilityDifference < 10)
             {
-                if(rand.Next() > 40)
+                if(rand.Next(0, 100) > 40)
                 {
                     return true;
                 }
@@ -123,7 +198,7 @@ namespace CombatSimulator
             }
             else if(agilityDifference > 10)
             {
-                if(rand.Next() > 30)
+                if(rand.Next(0, 100) > 30)
                 {
                     return true;
 

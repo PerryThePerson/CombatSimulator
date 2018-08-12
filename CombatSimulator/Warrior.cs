@@ -11,6 +11,7 @@ namespace CombatSimulator
         public int strength { get; set ; }
         public int agility { get; set; }
         public int experience { get; set; }
+
         public int headHealth { get; set; }
         public int leftArmHealth { get; set; }
         public int rightArmHealth { get; set; }
@@ -18,8 +19,10 @@ namespace CombatSimulator
         public int leftLegHealth { get; set; }
         public int rightLegHealth { get; set; }
         public int health { get; set; }
+
         public bool alive { get; set; }
 
+        public int torsoArmor { get; set; }
 
         public Warrior()
         {
@@ -32,10 +35,12 @@ namespace CombatSimulator
             headHealth = 100;
             leftArmHealth = 100;
             rightArmHealth = 100;
-            torsoHealth = 100;
+            torsoHealth = 20;
             leftLegHealth = 100;
             rightLegHealth = 100;
-            health = 100;
+            health = 20;
+
+            torsoArmor = 5;
 
             alive = true;
 
